@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
@@ -9,25 +9,50 @@ import 'swiper/css/navigation';
 // import required modules
 import { Navigation, Autoplay } from 'swiper/modules';
 import SliderCard from './SliderCard';
+import { useEffect } from 'react';
 
 const ProdSlider = ({ route }) => {
-    const breakpoints = {
-        320: {
-            slidesPerView: 1,
-        },
-        480: {
-            slidesPerView: 2,
-        },
-        768: {
-            slidesPerView: 3,
-        },
-        1024: {
-            slidesPerView: 4,
-        },
-        1200: {
-            slidesPerView: 5,
-        },
-    };
+    const [windowWidth, setWindowWidth] = useState(null)
+    const [slides, setSlides] = useState(null)
+    // const breakpoints = {
+    //     320: {
+    //         slidesPerView: 1,
+    //     },
+    //     480: {
+    //         slidesPerView: 2,
+    //     },
+    //     768: {
+    //         slidesPerView: 3,
+    //     },
+    //     1024: {
+    //         slidesPerView: 4,
+    //     },
+    //     1200: {
+    //         slidesPerView: 5,
+    //     },
+    // };
+
+
+    useEffect(() => {
+        setWindowWidth(window.innerWidth)
+    },[])
+    useEffect(() => {
+      const getSlides =() => {
+
+        if (windowWidth >= 1200) {
+            return setSlides(5)
+        } else if (windowWidth >=1024) {
+            return setSlides(4)
+        } else if (windowWidth >= 768) {
+            return setSlides(3)
+        } else {
+            return setSlides(2)
+        }
+      }
+      getSlides()
+      console.log(slides, 'slides', windowWidth);
+    },[windowWidth])
+    
 
     return (
         <div>
@@ -41,7 +66,7 @@ const ProdSlider = ({ route }) => {
                 navigation={true}
                 modules={[Autoplay, Navigation]}
                 className="my-slider"
-                breakpoints={breakpoints}
+                slidesPerView={slides}
             >
                 {route?.products?.length > 0 ? (
                     route?.products?.map((item, index) => (

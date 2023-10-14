@@ -1,8 +1,8 @@
 // .header
 .header {
-    padding: 0 20px;
+    padding: 0;
     max-width: 100%;
-    width: 1380px;
+    width: 1320px;
     margin: auto;
 
     &_wrapper {
@@ -122,10 +122,10 @@
                 align-items: center;
 
                 input {
-                    width: 150px;
                     border: 1px solid #666;
                     border-radius: 6px 0 0 6px;
                     padding: 8px 16px;
+                    @apply w-[500px];
                 }
 
                 button {
@@ -141,20 +141,25 @@
 
 // .catalog_btn
 .catalog_btn {
-    width: 200px;
-    background: red;
+    @apply relative ;
     button {
-        span {
-        }
+        border-radius: 6px 6px 0 0;
+        @apply flex items-center gap-[10px] px-[16px] py-[10px] w-[50px] sm:w-[80px] md:w-[200px] lg:w-[230px] bg-[#666] text-[#fff] font-[600] ;
+    }
+    span{
+        @apply hidden sm:block md:block;
     }
 }
+// &__catalog {
+    
+// }
 
 // .catalog_wrapper
 .catalog_wrapper {
     position: absolute;
     z-index: 20;
     top: 100%;
-    width: 200px;
+    width: 100%;
 
     .categories {
         border: 1px solid #000;

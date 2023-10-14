@@ -19,6 +19,12 @@ const Header = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [showResults, setShowResults] = useState(false);
 
+    const [searchResult, setSearchResult] = useState('')
+    const [searchId, setSearchId] = useState('')
+    console.log(searchId);
+    // const subCategory = useSelector(state => state.routes.categoryRotes)
+    // console.log(subCategory, "header subs");
+
     const dispath = useDispatch();
 
     const openModal = () => {
@@ -33,19 +39,18 @@ const Header = () => {
     useEffect(() => {
         const userLocal = localStorage.getItem('user');
         const userStorage = userLocal;
-        console.log(userStorage, 'user');
         const userToUse = userStorage || {};
         dispath(setUser(userToUse));
     }, []);
 
     useEffect(() => {
-        console.log(isAuth);
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://51.20.95.11:8000/api/v1/product/', {
+                const response = await axios.get('https://sel-market-back.com/api/v1/product/', {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('access_token') },
                 });
                 setProducts(response.data);
+                console.log(response.data);
                 if (response.data.length === 0) {
                     // router.push('/');
                 }
@@ -53,14 +58,27 @@ const Header = () => {
                 console.error('Error fetching products:', error);
             }
         };
-
         fetchData();
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(`https://sel-market-back.com/api/v1/category/crud/${searchId}`, {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('access_token') },
+                });
+                setSearchResult(response.data);
+                console.log(searchResult, 'lol');
+                if (response.data.length === 0) {
+                    // router.push('/');
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        fetchCategories();
     }, []);
 
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
-
     const handleInputChange = (e) => {
         setSearchQuery(e.target.value);
         setShowResults(e.target.value !== '');
@@ -71,6 +89,10 @@ const Header = () => {
         localStorage.removeItem('access_token');
         dispath(removeUser());
     };
+
+    const inputSearchHandler = (category) => {
+        setSearchId(category)
+    }
 
     return (
         <header className={styles.header}>
@@ -119,7 +141,9 @@ const Header = () => {
                     )}
                 </div>
                 <div className={styles.header_wrapper_btm}>
-                    <div className={styles.header_wrapper_btm__catalog}>{/* <NavBar /> */}</div>
+                    <div className={styles.header_wrapper_btm__catalog}>
+                        <NavBar />
+                    </div>
                     {/* <p className={styles.header_wrapper_btm__tools}>
                         <AiOutlinePercentage color="#d60000" />
                         Акции
@@ -155,14 +179,16 @@ const Header = () => {
                                 <p>Подходящие товары не найдены.</p>
                             ) : (
                                 filteredProducts.map((product) => (
-                                    <div key={product.id} className={styles.product}>
-                                        <div>
-                                            <img src={product.image} alt={product.name} />
-                                        </div>
-                                        <div>
-                                            <h3>{product.name}</h3>
-                                            <p>{product.price} p.</p>
-                                        </div>
+                                    <div key={product.id} className={styles.product} onMouseEnter={() => inputSearchHandler(product.category)}>
+                                        <Link href={`/category/${searchResult.parent_category.name}/${searchResult.name}/${product.id}`}>
+                                            <div>
+                                                <img src={product.image1} alt={product.name} />
+                                            </div>
+                                            <div>
+                                                <h3>{product.name}</h3>
+                                                <p>{product.price} p.</p>
+                                            </div>
+                                        </Link>
                                     </div>
                                 ))
                             )}

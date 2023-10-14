@@ -8,16 +8,12 @@ import { Html } from 'next/document';
 
 function MyApp({ Component, pageProps }) {
     return (
-        // <Html lang="ru">
-        <div>
-            <Provider store={store}>
-                <Header />
-                <CategoryRoutes />
-                <Component {...pageProps} />
-                <Footer />
-            </Provider>
-        </div>
-        // </Html>
+        <Provider store={store}>
+            <Header />
+            <CategoryRoutes />
+            <Component {...pageProps} />
+            <Footer />
+        </Provider>
     );
 }
 

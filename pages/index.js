@@ -58,7 +58,7 @@ export default function Home() {
             setSubcategories(subcategories)
         }
         getFilteredProds()
-        console.log(subcategories, "state");
+        console.log(subcategories, "subs");
     }, [routesArr]);
     return (
         <main>
@@ -160,17 +160,17 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div>
+            <div className={styles.podborka}>
                 <h2>Ваша подборка популярных товаров</h2>
                 <ProdSlider route={subcategories[0]} />
             </div>
-            <div>
+            <div className={styles.podborka}>
                 <h2>Ваша подборка товаров со скидкой</h2>
                 <ProdSlider route={subcategories[1]} />
             </div>
-            <div>
+            <div className={styles.podborka}>
                 <h2>Ваша подборка из нашего магазина</h2>
-                {/* <ProdSlider route={prods} /> */}
+                <ProdSlider route={subcategories[2]} />
             </div>
         </main>
     );
