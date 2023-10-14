@@ -165,6 +165,10 @@
     }
 }
 
+.auth {
+    @apply absolute top-[50%] left-[50%] w-[300px] p-[20px] z-1;
+}
+
 @media screen and (max-width: 768px) {
     .cartItems {
         display: flex;

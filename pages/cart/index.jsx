@@ -4,6 +4,11 @@ import { FiSearch } from 'react-icons/fi';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { MdDeleteOutline } from 'react-icons/md';
 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import styles from './Cart.module.scss';
 import axios from 'axios';
 
@@ -12,6 +17,7 @@ const Page = () => {
     const [cartArr, setCartArr] = useState(null)
     const [deleteId, setDeleteId] = useState(null)
     const [token, setToken] = useState('')
+    const [authorize, setAuthorize] = useState(null)
 
     
     const getAllCart = () => {
@@ -24,14 +30,17 @@ const Page = () => {
         })
         .then((response) => {
             if (response.status !== 200) {
-            throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok');
             }
             const data = response.data;
             setCartArr(data)
             console.log(data, 'cart again');
+            setAuthorize(true)
         })
         .catch((error) => {
+            toast.error("Вы не зарегестрированы", {});
             console.error('Error fetching data:', error);
+            setAuthorize(false)
         });
     }
 
@@ -77,21 +86,12 @@ const Page = () => {
     
     return (
         <main className={styles.cart}>
+            <ToastContainer />
+
             <div className={styles.cartHeading}>
                 <h1>Корзина</h1>
                 <span>№ 1695-1984-38867</span>
             </div>
-            {/* <form onSubmit={handleSearchSubmit} className={styles.cartSearch}>
-                <input
-                    type="text"
-                    placeholder="Быстрое добавление: введите наименование или код товара"
-                    value={inputSearch}
-                    onChange={(e) => setInputSearch(e.target.value)}
-                />
-                <button>
-                    <FiSearch color="#666" />
-                </button>
-            </form> */}
             <div className={styles.cartItems}>
                 <div className={styles.cart_wrapper}>
                     <div className={styles.cart_wrapper__tabs}>
@@ -134,6 +134,9 @@ const Page = () => {
                             )
                         }
                         
+                    <div className={styles.auth}>
+                        {!authorize && <p>вы должны зарегестрироваться</p>}
+                    </div>
                     </div>
                 </div>
                 <div className={styles.cartBill}>
