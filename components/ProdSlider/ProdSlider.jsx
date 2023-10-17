@@ -10,6 +10,7 @@ import 'swiper/css/navigation';
 import { Navigation, Autoplay } from 'swiper/modules';
 import SliderCard from './SliderCard';
 import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 const ProdSlider = ({ route }) => {
     const [windowWidth, setWindowWidth] = useState(null)
@@ -68,6 +69,8 @@ const ProdSlider = ({ route }) => {
                 className="my-slider"
                 slidesPerView={slides}
             >
+            <ToastContainer />
+
                 {route?.products?.length > 0 ? (
                     route?.products?.map((item, index) => (
                         <SwiperSlide key={item.id}>

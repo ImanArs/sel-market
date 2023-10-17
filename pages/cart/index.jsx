@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './Cart.module.scss';
 import axios from 'axios';
+import { API_URL } from '../../utils/api';
 
 const Page = () => {
     const [inputSearch, setInputSearch] = useState('');
@@ -20,22 +21,23 @@ const Page = () => {
     const [authorize, setAuthorize] = useState(null)
 
     
-    const getAllCart = () => {
+    const getAllCart = (localAcces) => {
         axios
-        .get('http://51.20.95.11:8000/api/v1/cart/view_cart/', {
+        .get(`${API_URL}/api/v1/cart/view_cart/`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${localAcces}`,
                 'Content-Type': 'application/json',
             }
         })
         .then((response) => {
-            if (response.status !== 200) {
-                throw new Error('Network response was not ok');
+            if (response.status === 200) {
+                // throw new Error('Network response was not ok');
+                console.log(response);
+                const data = response.data;
+                setCartArr(data)
+                console.log(data, 'cart again');
+                setAuthorize(true) 
             }
-            const data = response.data;
-            setCartArr(data)
-            console.log(data, 'cart again');
-            setAuthorize(true)
         })
         .catch((error) => {
             toast.error("Вы не зарегестрированы", {});
@@ -46,7 +48,7 @@ const Page = () => {
 
     const deleteCartItem = async (id) => {
         try {
-          const response = await axios.delete(`http://51.20.95.11:8000/api/v1/cart/remove_from_cart/${id}`, {
+          const response = await axios.delete(`${API_URL}/api/v1/cart/remove_from_cart/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -54,7 +56,8 @@ const Page = () => {
           });
           if (response.status === 204) {
             console.log(`Deleted ${id}`);
-            getAllCart();
+            toast.success('вы успешно удалили товар из корзины')
+            getAllCart(token);
           }
         } catch (error) {
           console.error('Error fetching cart delete:', error);
@@ -74,14 +77,14 @@ const Page = () => {
     })
     useEffect(() => {
         if (deleteId !== null) {
-            getAllCart();
+            getAllCart(token);
         }
     }, [deleteId]);
 
     useEffect(() => {
-        const localAcces = localStorage.getItem('access_token')
+        const localAcces = sessionStorage.getItem('access_token')
         setToken(localAcces)
-        getAllCart();
+        getAllCart(localAcces);
     }, []);
     
     return (
@@ -135,7 +138,7 @@ const Page = () => {
                         }
                         
                     <div className={styles.auth}>
-                        {!authorize && <p>вы должны зарегестрироваться</p>}
+                        {authorize ? '' : <p className={styles.auth_message}>вы должны зарегестрироваться</p>}
                     </div>
                     </div>
                 </div>
@@ -144,9 +147,9 @@ const Page = () => {
                     <p>
                         Выбрано товаров: <span>{cartArr?.length}</span>
                     </p>
-                    <p>
+                    {/* <p>
                         Вес заказа: <span>1кг</span>
-                    </p>
+                    </p> */}
                     <p>
                         Общая стоимость: <span className={styles.bill}>{summary}</span>
                     </p>

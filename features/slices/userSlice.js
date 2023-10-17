@@ -14,7 +14,7 @@ const userSlice = createSlice({
     },
     removeUser: (state,action) => {
       state.user = {};
-      localStorage.removeItem('user')
+      sessionStorage.removeItem('user')
     }
   }
 })

@@ -29,23 +29,19 @@ body {
 } */
 
 main {
-    max-width: 1600px;
-    padding: 20px 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 1320px;
-    margin: auto;
+    @apply max-w-[1600px] min-h-[100vh] flex flex-col justify-center w-[1320px] m-auto;
+    @apply sm:w-[960px] sm:py-[20px];
+    @apply md:w-[680px] md:py-[20px];
+    @apply lg:w-[960px] lg:py-[20px];
+    @apply xl:w-[1260px] xl:py-[20px];
 }
 
 /* SWIPER */
 .mySwiper {
-    max-width: 900px;
-    /* height: 120px; */
-    width: 100%;
-    border-radius: 15px;
-    @apply w-[1000px];
+  @apply md:w-[500px] rounded-[15px];
+  @apply md:w-[450px] rounded-[15px];
+  @apply lg:w-[730px] rounded-[15px];
+  @apply xl:w-[900px];
 }
 
 .my-slider {

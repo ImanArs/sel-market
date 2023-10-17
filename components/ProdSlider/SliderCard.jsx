@@ -5,6 +5,7 @@ import { HiShoppingCart } from 'react-icons/hi';
 import styles from './SliderCard.module.scss';
 import { API_URL } from '../../utils/api';
 import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function ProductCard({ name, price, image, productId, accessToken, href, elem }) {
@@ -29,21 +30,24 @@ function ProductCard({ name, price, image, productId, accessToken, href, elem })
         }
     }
     useEffect(() => {
-        let accToken = localStorage.getItem('access_token')
+        let accToken = sessionStorage.getItem('access_token')
         if (cartProductId !== null) {
             const headers = {
                 Authorization: `Bearer ${accToken}`,
                 'Content-Type': 'application/json',
             };
-            fetch(`http://51.20.95.11:8000/api/v1/cart/add_to_cart/${cartProductId}/`, {
+            fetch(`${API_URL}/api/v1/cart/add_to_cart/${cartProductId}/`, {
                 method: 'POST',
                 headers: headers,
             })
             .then((response) => {
                 if (response.ok) {
                     console.log('response 200!');
+
+                    toast.success("Вы успешно добавили товар в корзину", {});
                 } else {
                     console.log('response not ok');
+                    toast.error("Вы должны войти или зарегестрироваться", {});
                 }
             })
             .catch((error) => {

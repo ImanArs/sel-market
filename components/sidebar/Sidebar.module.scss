@@ -1,5 +1,7 @@
 .sidebar {
   @apply w-[400px] border max-h-[400px] p-[15px] rounded-[15px] flex flex-col gap-[10px];
+  @apply lg:w-[300px] lg:max-h-[400px] lg:p-[15px];
+  @apply xl:w-[400px] xl:max-h-[400px] xl:p-[15px];
   &_filter {
     @apply flex flex-col gap-[20px];
     &__inputs {

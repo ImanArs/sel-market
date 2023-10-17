@@ -2,6 +2,6 @@
 .ProdWrapper {
   @apply flex justify-between;
   .cards_wrapper {
-    @apply grid grid-cols-3;
+    @apply grid grid-cols-3 gap-[15px];
   }
 }

@@ -1,29 +1,36 @@
 .card{
-  @apply w-[230px] min-h-[300px] rounded-lg m-auto border py-[15px] px-[10px]  ; 
+  @apply w-[230px] min-h-[300px] rounded-lg m-auto border py-[15px] px-[10px] flex flex-col justify-between mt-[20px]; 
+  @apply md:w-[170px] md:min-h-[300px]; 
+  @apply lg:w-[200px] lg:min-h-[300px]; 
+  @apply xl:w-[230px] xl:min-h-[300px]; 
   &_heart{
-      @apply flex mt-4 mr-4 text-[30px] text-[#666]; 
+      @apply flex text-[30px] text-[#666]; 
       &__svg{
-          @apply ml-auto w-10 decoration-white ;
+          @apply ml-auto decoration-white ;
+          @apply lg:text-[25px] ;
+          @apply xl:text-[30px] ;
       }
   }
   &_image{
       @apply w-full;
       img{
-        @apply w-full h-[150px];
+        @apply w-full h-[120px];
+        @apply xl:h-[150px];
       }
   }
   &_name{
-      @apply text-sm m-8 ;
+    @apply lg:text-[18px] lg:font-[400];
+    @apply xl:text-[20px];
   }
   &_price{
-      @apply m-8 flex justify-between;
+      @apply flex justify-between items-center;
   }
   &_icons{
-      @apply   py-[9px] px-[6px] w-9 h-9 rounded-full hover:bg-red-700 bg-red-600;
-      &__svg{
-          @apply  w-6;
-      }
-  }
+    @apply   py-[9px] px-[6px] w-9 h-9 rounded-full hover:bg-red-700 bg-red-600;
+    &__svg{
+        @apply w-6;
+    }
+}
   button {
     @apply w-[80%] bg-[#d60000] text-[#fff] rounded-md py-[5px];
   }

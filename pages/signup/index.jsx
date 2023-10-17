@@ -7,6 +7,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../features/slices/userSlice';
 import Link from 'next/link';
+import { API_URL } from '../../utils/api';
 
 const Signup = () => {
     const [state, setState] = useState({
@@ -30,15 +31,15 @@ const Signup = () => {
             password: state.password,
         }
         e.preventDefault();
-        const url = 'http://51.20.95.11:8000/api/v1/account/login/';
+        const url = `${API_URL}/api/v1/account/login/`;
         axios
             .post(url, data)
             .then((res) => {
                 const accessToken = res.data['access'];
-                localStorage.setItem('access_token', accessToken);
+                sessionStorage.setItem('access_token', accessToken);
                 console.log(res, 'res');
                 dispatch(setUser(res.data))
-                localStorage.setItem('user', JSON.stringify(res.data))
+                sessionStorage.setItem('user', JSON.stringify(res.data))
                 router.push('/');
             })
             .catch((err) => {

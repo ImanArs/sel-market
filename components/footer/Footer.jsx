@@ -11,7 +11,7 @@ const Footer = () => {
         <div className={styles.form}>
           <div className={styles.df}>
             <GrMail color='#d60000' className={styles.svg} fontSize={20}/>
-          <h2>  Подпишитесь на рассылку и будьте в курсе! Акции, скидки, распродажи ждут!</h2>
+            <h2>  Подпишитесь на рассылку и будьте в курсе! Акции, скидки, распродажи ждут!</h2>
           </div>
           <form>
             <input type="text" placeholder='Введите email' />

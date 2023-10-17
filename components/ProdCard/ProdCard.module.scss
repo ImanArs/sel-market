@@ -1,27 +1,34 @@
 .cart{
-  @apply w-[300px] hover:border-slate-400 border m-8 rounded-lg   ; 
+  @apply w-[300px] hover:border-slate-400 border py-[10px] px-[20px] rounded-lg flex flex-col justify-between  ; 
+  @apply md:w-[150px] md:h-[300px]; 
+  @apply lg:w-[200px] lg:h-[300px]; 
+  @apply xl:w-[300px]; 
   &_heart{
-      @apply flex mt-4 mr-4 text-[30px] text-[#666]; 
+      @apply flex  text-[30px] text-[#666]; 
       &__svg{
-          @apply ml-auto w-10 decoration-white ;
+          @apply ml-auto  decoration-white ;
+          @apply lg:text-[25px];
+          @apply xl:text-[30px];
       }
   }
   &_image{
-      @apply w-[204px] m-8;
+      @apply w-[204px];
+      @apply lg:w-full;
       img{
-          @aplly w-[204px];
+        @apply w-full h-[100px];
       }
   }
   &_name{
-      @apply text-sm m-8 ;
+      @apply lg:text-[18px] lg:font-[400];
+      @apply xl:text-[20px];
   }
   &_price{
-      @apply m-8 flex justify-between;
+      @apply flex justify-between items-center;
   }
   &_icons{
       @apply   py-[9px] px-[6px] w-9 h-9 rounded-full hover:bg-red-700 bg-red-600;
       &__svg{
-          @apply  w-6;
+          @apply w-6;
       }
   }
 }

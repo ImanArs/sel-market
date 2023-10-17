@@ -7,6 +7,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { setUser } from '../../features/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { API_URL } from '../../utils/api';
 
 const TokenContext = React.createContext();
 
@@ -36,18 +37,18 @@ const Signin = () => {
             password: state.password,
             password2: state.password2,
         };
-        const url = 'http://51.20.95.11:8000/api/v1/account/register/';
+        const url = `${API_URL}/api/v1/account/register/`;
         axios
             .post(url, data)
-            .then((res) => {
+            .then(async(res) => {
                 const accessToken = res.data['access'];
                 const refreshToken = res.data['refresh'];
-                localStorage.setItem('access_token', accessToken);
-                localStorage.setItem('refresh_token', refreshToken);
+                sessionStorage.setItem('access_token', accessToken);
+                sessionStorage.setItem('refresh_token', refreshToken);
                 setAccessToken(accessToken);
                 console.log(res.data);
                 dispath(setUser(res.data))
-                localStorage.setItem('user', JSON.stringify(res.data))
+                sessionStorage.setItem('user', JSON.stringify(res.data))
                 router.push('/');
             })
             .catch((err) => {

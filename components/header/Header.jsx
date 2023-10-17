@@ -21,9 +21,7 @@ const Header = () => {
 
     const [searchResult, setSearchResult] = useState('')
     const [searchId, setSearchId] = useState('')
-    console.log(searchId);
-    // const subCategory = useSelector(state => state.routes.categoryRotes)
-    // console.log(subCategory, "header subs");
+    const [userHead,setUserHead] = useState(null)
 
     const dispath = useDispatch();
 
@@ -34,20 +32,20 @@ const Header = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
     const user = useSelector((state) => state.user.user);
+
     useEffect(() => {
-        const userLocal = localStorage.getItem('user');
-        const userStorage = userLocal;
-        const userToUse = userStorage || {};
-        dispath(setUser(userToUse));
+        const userLocal = sessionStorage.getItem('user');
+        const userStorage = JSON.parse(userLocal || '{}');
+        setUserHead(user);
+        dispath(setUser(userStorage))
     }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://sel-market-back.com/api/v1/product/', {
-                    headers: { Authorization: 'Bearer ' + localStorage.getItem('access_token') },
+                    headers: { Authorization: 'Bearer ' + sessionStorage.getItem('access_token') },
                 });
                 setProducts(response.data);
                 console.log(response.data);
@@ -59,13 +57,18 @@ const Header = () => {
             }
         };
         fetchData();
+
+    }, []);
+
+    useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(`https://sel-market-back.com/api/v1/category/crud/${searchId}`, {
-                    headers: { Authorization: 'Bearer ' + localStorage.getItem('access_token') },
+                    headers: { Authorization: 'Bearer ' + sessionStorage.getItem('access_token') },
                 });
                 setSearchResult(response.data);
-                console.log(searchResult, 'lol');
+                console.log();
+                console.log(response.data, 'lol');
                 if (response.data.length === 0) {
                     // router.push('/');
                 }
@@ -74,7 +77,7 @@ const Header = () => {
             }
         };
         fetchCategories();
-    }, []);
+    }, [searchId])
 
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -86,7 +89,7 @@ const Header = () => {
 
     const handleLogOut = () => {
         setIsAuth(false);
-        localStorage.removeItem('access_token');
+        sessionStorage.removeItem('access_token');
         dispath(removeUser());
     };
 
@@ -180,7 +183,7 @@ const Header = () => {
                             ) : (
                                 filteredProducts.map((product) => (
                                     <div key={product.id} className={styles.product} onMouseEnter={() => inputSearchHandler(product.category)}>
-                                        <Link href={`/category/${searchResult.parent_category.name}/${searchResult.name}/${product.id}`}>
+                                        <Link href={`/category/${searchResult?.parent_category?.name}/${searchResult?.name}/${product.id}`}>
                                             <div>
                                                 <img src={product.image1} alt={product.name} />
                                             </div>
